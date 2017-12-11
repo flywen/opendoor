@@ -2,7 +2,12 @@
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
 from .WXBizMsgCrypt import WXBizMsgCrypt
+import relay
 import xml.etree.cElementTree as ET
+import RPi.GPIO as GPIO
+import time
+import threading
+import re
 
 def wxent(req):
     msg_signature = req.GET.get('msg_signature', False)
@@ -31,10 +36,25 @@ def wxent(req):
         event = xml_tree.find('Event').text
         if event == 'scancode_push':
             scanresult = xml_tree.find('ScanCodeInfo').find('ScanResult').text
-            print "用户:%s" % from_uid
+            print "your id is:%s" % from_uid
             print msg_tpye
             print event
             print scanresult
+            door_no = re.search(r'opendoor/(.*)',scanresult).group(1)
+            print door_no
+            if door_no == '1':
+                no = 29
+            elif door_no == '2':
+                no = 31
+            elif door_no == '3':
+                no = 33
+            elif door_no == '4':
+                no = 35
+            elif door_no == '5':
+                no = 37
+            print no
+            relay_open = threading.Thread(target=relay.relay,args=(no,)) 
+            relay_open.start()
         #print content
 
         #sRespData = "<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[wx1009c4a861b4b621]]></FromUserName><CreateTime>1348831860</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[%s]]></Content><MsgId>1</MsgId><AgentID>1000002</AgentID></xml>" % (from_uid, 'you saied:dfas' + content,)
