@@ -36,12 +36,13 @@ def wxent(req):
         event = xml_tree.find('Event').text
         if event == 'scancode_push':
             scanresult = xml_tree.find('ScanCodeInfo').find('ScanResult').text
-            print "your id is:%s" % from_uid
-            print msg_tpye
-            print event
-            print scanresult
+            #print "your id is:%s" % from_uid
+            #print msg_tpye
+            #print event
+            #print scanresult
             door_no = re.search(r'opendoor/(.*)',scanresult).group(1)
-            print door_no
+            t_now = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+            print "%s|INFO|USER:%s|DOOR_NO:%s" % (t_now, from_uid, door_no)
             if door_no == '1':
                 no = 29
             elif door_no == '2':
@@ -52,7 +53,16 @@ def wxent(req):
                 no = 35
             elif door_no == '5':
                 no = 37
-            print no
+            elif door_no == '6':
+                no = 32
+            elif door_no == '7':
+                no = 36
+            elif door_no == '8':
+                no = 38
+            elif door_no == '9':
+                no = 40
+            #print no
+            #print "%s|INFO|USER:%s|DOOR_NO:%s" % (t_now, from_uid, door_no)
             relay_open = threading.Thread(target=relay.relay,args=(no,)) 
             relay_open.start()
         #print content
