@@ -13,7 +13,7 @@ def wxent(req):
     msg_signature = req.GET.get('msg_signature', False)
     timestamp = req.GET.get('timestamp', False)
     nonce = req.GET.get('nonce', False)
-    wxcpt = WXBizMsgCrypt('1fAR', '1JIZBlAuGpnzi1AVToUrwrtX7Mgc4UBCxfT8I3fD8vC', 'wx1009c4a861b4b621')
+    wxcpt = WXBizMsgCrypt('1fAR', '1JIZBlAuGpnzi1AVToUrwrtX7Mgc4UBCxfT8I3fD8vC', 'wwb1d49be5532d2965')
     if req.method == 'GET':
         echostr = req.GET.get('echostr', False)
         ret, sEchoStr = wxcpt.VerifyURL(msg_signature, timestamp, nonce, echostr)
