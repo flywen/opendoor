@@ -75,4 +75,5 @@ def wxent(req):
 
 
 def door01(req):
+    print "This is door01, it is a demo."
     return render_to_response("1.html")
