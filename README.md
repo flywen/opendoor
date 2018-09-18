@@ -43,7 +43,18 @@ server {
 }
 ```
 ### 3、创建、修改uwsgi配置文件
-见文件“”
+```
+[uwsgi]
+vhost = false
+socket = 127.0.0.1:9090
+master = true
+enable-threads = true
+workers = 6
+wsgi-file = /home/pi/opendoor/opendoor/wsgi.py
+chdir = /home/pi/opendoor
+daemonize = /home/pi/opendoor/visitor.log
+disable-logging = true
+```
 ### 4、设置程序自启，修改/etc/rc.local，增加以下内容
 ```
 su pi -c "wsgi /home/pi/opendoor/uwsgi.ini"
